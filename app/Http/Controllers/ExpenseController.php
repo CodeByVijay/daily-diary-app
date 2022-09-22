@@ -6,10 +6,12 @@ use Illuminate\Http\Request;
 
 class ExpenseController extends Controller
 {
-    public function register(Request $req){
-        $req->validate([
-            'pass'=>'required|same:con_pass',
-            'con_pass'=>'required',
-        ]);
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    public function home()
+    {
+        return view('home');
     }
 }

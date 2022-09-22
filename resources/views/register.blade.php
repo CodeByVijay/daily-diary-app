@@ -5,13 +5,20 @@
         <div class="container-login100" style="background-image: url('assets/images/bg-01.jpg');">
             <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
                 <form class="login100-form validate-form" action="{{route('user.register')}}" method="POST">
+                    @csrf
                     <span class="login100-form-title p-b-49">
                         Register
                     </span>
+                    @if ($message = session()->get('error'))
+                    <div class="alert alert-danger alert-block">
+                        <button type="button" class="close" data-dismiss="alert">×</button>    
+                        <strong>{{ $message }}</strong>
+                    </div>
+                    @endif
 
                     <div class="wrap-input100 validate-input m-b-23" data-validate="Name is reauired">
                         <span class="label-input100">Name</span>
-                        <input class="input100" type="text" name="Name" placeholder="Name">
+                        <input class="input100" type="text" name="name" placeholder="Name">
                         <span class="focus-input100" data-symbol="&#xf206;"></span>
                     </div>
 
