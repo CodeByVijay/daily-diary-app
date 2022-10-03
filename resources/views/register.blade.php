@@ -4,17 +4,23 @@
     <div class="limiter">
         <div class="container-login100" style="background-image: url('assets/images/bg-01.jpg');">
             <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-                <form class="login100-form validate-form" action="{{route('user.register')}}" method="POST">
+                <form class="login100-form validate-form" action="{{ route('user.register') }}" method="POST">
                     @csrf
                     <span class="login100-form-title p-b-49">
                         Register
                     </span>
-                    @if ($message = session()->get('error'))
-                    <div class="alert alert-danger alert-block">
-                        <button type="button" class="close" data-dismiss="alert">×</button>    
-                        <strong>{{ $message }}</strong>
-                    </div>
+                    @if (session()->get('error'))
+                        <div class="alert alert-danger alert-block">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            <strong>{{ session()->get('error') }}</strong>
+                        </div>
                     @endif
+                    @error('pass')
+                        <div class="alert alert-danger alert-block">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    @enderror
 
                     <div class="wrap-input100 validate-input m-b-23" data-validate="Name is reauired">
                         <span class="label-input100">Name</span>
@@ -39,7 +45,7 @@
                         <input class="input100" type="password" name="con_pass" placeholder="Confirm Password">
                         <span class="focus-input100" data-symbol="&#xf190;"></span>
                     </div>
-                    
+
 
                     {{-- <div class="text-right p-t-8 p-b-31">
                         <a href="#">
@@ -61,7 +67,7 @@
                             Or Sign In Using
                         </span>
 
-                        <a href="{{route('login')}}" class="txt2">
+                        <a href="{{ route('login') }}" class="txt2">
                             Sign In
                         </a>
                     </div>

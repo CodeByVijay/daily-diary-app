@@ -13,6 +13,10 @@ class AuthController extends Controller
         $req->validate([
             'pass' => 'required|same:con_pass',
             'con_pass' => 'required',
+        ], [
+            'pass.required' => 'Password not blank.',
+            'con_pass.required' => 'Confirm Password not blank.',
+            'pass.same' => 'Password & Confirm Password pass must match.'
         ]);
 
         $user = new User();

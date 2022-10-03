@@ -28,6 +28,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/util.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/main.css')}}">
     <!--===============================================================================================-->
+    
     @stack('style')
 </head>
 
