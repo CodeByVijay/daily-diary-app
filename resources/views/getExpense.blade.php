@@ -35,7 +35,7 @@ use App\Models\Expense;
         </style>
     @endpush
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#"> <img src="{{ asset('assets/images/icons/favicon.png') }}" width="30"
+        <a class="navbar-brand" href="#"> <img src="{{ asset('public/assets/images/icons/favicon.png') }}" width="30"
                 height="30" alt=""></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
