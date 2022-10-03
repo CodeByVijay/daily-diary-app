@@ -26,6 +26,11 @@
                 border-color: #80bdff !important;
                 outline: 0 !important;
             }
+
+            #pass1,
+            #pass2 {
+                display: none;
+            }
         </style>
     @endpush
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -49,12 +54,12 @@
             </ul>
             <ul class="my-2 my-lg-0">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropLink dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropLink dropdown-toggle" href="{{ route('profile') }}" id="navbarDropdown"
+                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {{ auth()->user()->name }}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{route('profile')}}">Profile</a>
+                        <a class="dropdown-item" href="#">Profile</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('logout') }}">Logout</a>
                     </div>
@@ -64,48 +69,54 @@
     </nav>
 
     <div class="container-fluid mainDiv mt-4">
-        @if (session()->get('success'))
-            <div class="alert alert-success alert-block">
-                <button type="button" class="close" data-dismiss="alert">×</button>
-                <strong>{{ session()->get('success') }}</strong>
-            </div>
-        @endif
 
-        <form action="{{ route('user.store') }}" method="post">
+
+        @error('pass')
+            <div class="alert alert-danger alert-block">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <strong>{{ $message }}</strong>
+            </div>
+        @enderror
+
+        <form action="{{ route('user.profile') }}" method="post">
             @csrf
+            <input type="hidden" name="id" value="{{ auth()->user()->id }}">
             <div class="card">
-                <div class="card-header">Create Expense</div>
+                <div class="card-header">Update Profile</div>
                 <div class="card-body">
                     <div class="row">
 
                         <div class="col-sm-12 col-md-6 col-lg-4">
                             <div class="form-group">
-                                <label for="">Expense Date</label>
-                                <input type="date" name="expense_date" class="form-control" value="<?php echo date('Y-m-d'); ?>"
-                                    placeholder="Expense Date" required>
+                                <label for="">Name</label>
+                                <input type="text" name="name" class="form-control" placeholder="Name"
+                                    value="{{ $profile->name }}" required>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6 col-lg-4" id="pass1">
+                            <div class="form-group">
+                                <label for="">Password</label>
+                                <input type="password" name="pass" class="form-control" placeholder="Password">
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6 col-lg-4" id="pass2">
+                            <div class="form-group">
+                                <label for="">Confirm Password</label>
+                                <input type="password" name="con_pass" class="form-control" placeholder="Confirm Password">
                             </div>
                         </div>
 
                         <div class="col-sm-12 col-md-6 col-lg-4">
-                            <div class="form-group">
-                                <label for="">Expense Description</label>
-                                <input type="text" name="expense_desc" class="form-control"
-                                    placeholder="Expense Description" required>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-12 col-md-6 col-lg-4">
-                            <div class="form-group">
-                                <label for="">Expense Price</label>
-                                <input type="number" name="expense_price" class="form-control"
-                                    placeholder="Expense Price eg - 20" required>
+                            <div id="passUpdate">
+                                <button type="button" class="btn btn-info">Password Change</button>
                             </div>
                         </div>
 
                         <div class="btn w-100">
-                            <button type="submit" class="btn btn-success" onclick="return confirm('Are you sure save this expense. You can`t change this.')">Save</button>
+                            <button type="submit" class="btn btn-success mt-5">Update</button>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -119,3 +130,14 @@
         </div>
     </div>
 @endsection
+@push('script')
+    <script>
+        $(document).ready(function() {
+            //
+            $('#passUpdate').on('click', function() {
+                $('#pass1').toggle();
+                $('#pass2').toggle();
+            })
+        });
+    </script>
+@endpush

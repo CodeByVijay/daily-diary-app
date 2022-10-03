@@ -40,7 +40,32 @@ class AuthController extends Controller
             return redirect()->route('user.home');
         } else {
             return redirect()->route('login')
-                ->with('error', 'Email-Address And Password Are Wrong.');
+                ->with('error', 'Email-Address Or Password Are Wrong.');
         }
+    }
+
+    public function profile()
+    {
+        $profile = User::find(auth()->user()->id);
+        return view('updateProfile', compact('profile'));
+    }
+
+    public function profileUpdate(Request $req)
+    {
+        $req->validate([
+            'pass' => 'same:con_pass',
+        ], [
+            'pass.same' => 'Password & Confirm Password pass must match.'
+        ]);
+        $user = User::find($req->id);
+        $user->name = $req->name;
+        if ($req->pass != '' && $req->con_pass != '') {
+
+            $user->password = Hash::make($req->pass);
+        }
+
+
+        $user->update();
+        return redirect()->route('user.home')->with('success', 'Profile Successfully Updated.');
     }
 }

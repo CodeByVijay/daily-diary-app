@@ -1,4 +1,6 @@
-<?php ?>
+<?php
+use App\Models\Expense;
+?>
 @extends('partials.app')
 @section('title', 'Expense')
 @section('content')
@@ -26,6 +28,9 @@
                 background-color: #fff !important;
                 border-color: #80bdff !important;
                 outline: 0 !important;
+            }
+            #filterForm{
+                display: none;
             }
         </style>
     @endpush
@@ -56,7 +61,7 @@
                         {{ auth()->user()->name }}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Profile</a>
+                        <a class="dropdown-item" href="{{route('profile')}}">Profile</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('logout') }}">Logout</a>
                     </div>
@@ -76,38 +81,44 @@
         <div class="card">
 
             <div class="card-header">
-                <form action="{{ route('user.filterExpense') }}" method="post">
-                    @csrf
-                    <div class="row">
+                <a href="#" class="btn btn-warning" id="filter"><i class="fa fa-search"></i> Filter Expense</a>
 
-                        <div class="col-sm-5 col-md-5 col-lg-5">
-                            <div class="form-group">
-                                <label for="">Expense Start Date</label>
-                                <input type="date" name="expense_start_date" class="form-control"
-                                    placeholder="Expense Start Date" required>
+                <div id="filterForm" class="mt-2">
+                    <form action="{{ route('user.filterExpense') }}" method="post">
+                        @csrf
+                        <div class="row">
+
+                            <div class="col-sm-5 col-md-5 col-lg-5">
+                                <div class="form-group">
+                                    <label for="">Expense Start Date</label>
+                                    <input type="date" name="expense_start_date" class="form-control"
+                                        placeholder="Expense Start Date" required>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="col-sm-5 col-md-5 col-lg-5">
-                            <div class="form-group">
-                                <label for="">Expense End Date</label>
-                                <input type="date" name="expense_end_date" class="form-control"
-                                    placeholder="Expense Description" required>
+                            <div class="col-sm-5 col-md-5 col-lg-5">
+                                <div class="form-group">
+                                    <label for="">Expense End Date</label>
+                                    <input type="date" name="expense_end_date" class="form-control"
+                                        placeholder="Expense Description" required>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="col-sm-2 col-md-2 col-lg-2">
-                            <div class="btn w-100">
-                                <button type="submit" class="btn btn-success"><i class="fa fa-search"></i></button>
+                            <div class="col-sm-2 col-md-2 col-lg-2">
+                                <div class="btn w-100">
+                                    <button type="submit" class="btn btn-success"><i class="fa fa-search"></i></button>
+                                </div>
                             </div>
-                        </div>
 
-                    </div>
-                </form>
+                        </div>
+                    </form>
+                </div>
+
             </div>
             <div class="card-body">
+<h4 class="text-center text-success mb-4">Dear, <b>{{auth()->user()->name}}</b>! Your Total Expense Report.</h4>
                 <div class="table-responsive">
-                    <table class="table table-striped table-bordered table-hover">
+                    <table class="display table table-bordered table-hover text-center" id="myTab" style="width: 100%">
                         <thead>
                             <tr>
                                 <th>Date</th>
@@ -117,18 +128,45 @@
                         </thead>
                         <tbody>
                             @forelse ($expenses as $expense)
+
+                                <?php
+                                $expenseData = Expense::where('user_id', auth()->user()->id)
+                                    ->where('date', $expense->date)
+                                    ->orderBy('date', 'asc')
+                                    ->get();
+                                $expenseCount = Expense::where('user_id', auth()->user()->id)
+                                    ->where('date', $expense->date)
+                                    ->count();
+                                ?>
+
                                 <tr>
-                                    <td scope="row">{{ \Carbon\Carbon::parse($expense->date)->format('d M Y')}}</td>
+                                    <td rowspan="{{ $expenseCount + 1 }}" align="center" style="vertical-align: middle;">
+                                        {{ \Carbon\Carbon::parse($expense->date)->format('d M Y') }}</td>
+
+                                </tr>
+                                @foreach ($expenseData as $data)
+                                    <tr>
+                                        <td>{{ $data->expense_desc }}</td>
+                                        <td>&#8377; {{ $data->expense }}.00</td>
+                                    </tr>
+                                @endforeach
+                                {{-- <tr>
+                                    <td scope="row" rowspan="{{$expenseCount}}">{{ \Carbon\Carbon::parse($expense->date)->format('d M Y')}}</td>
                                     <td>{{$expense->expense_desc}}</td>
                                     <td>{{$expense->expense}}</td>
-                                </tr>
+                                </tr> --}}
+
                             @empty
                                 <h3 class="text-center">No Data Found.</h3>
                             @endforelse
                             <tr>
                                 <td colspan="2" class="text-right"><b>Total Expense</b></td>
-                                <td><b>&#8377; {{$expenseSum}}</b></td>
-                                
+                                <td><b>&#8377; {{ $expenseSum }}.00</b></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" class="text-right"><a href="#" onclick="window.print()"
+                                        class="btn btn-primary"><i class="fa fa-download"></i> Download</a></td>
+
                             </tr>
 
                         </tbody>
@@ -144,3 +182,13 @@
         </div>
     </div>
 @endsection
+
+@push('script')
+    <script>
+        $(document).ready(function() {
+            $('#filter').on('click',function(){
+                $('#filterForm').toggle();
+            })
+        });
+    </script>
+@endpush

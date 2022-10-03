@@ -17,10 +17,15 @@ Route::get('/register', function () {
 Route::post('user-register', [AuthController::class, 'register'])->name('user.register');
 Route::post('user-login', [AuthController::class, 'login'])->name('user.login');
 Route::get('home', [ExpenseController::class, 'home'])->name('user.home');
-Route::get('get-expense', [ExpenseController::class, 'expenseDetails'])->name('user.expense');
-Route::post('get-expense', [ExpenseController::class, 'filterExpense'])->name('user.filterExpense');
+
+// Profile
+Route::get('profile',[AuthController::class,'profile'])->name('profile');
+Route::post('profile',[AuthController::class,'profileUpdate'])->name('user.profile');
+
 
 // Expense
+Route::get('get-expense', [ExpenseController::class, 'expenseDetails'])->name('user.expense');
+Route::post('get-expense', [ExpenseController::class, 'filterExpense'])->name('user.filterExpense');
 Route::post('create-expense',[ExpenseController::class,'store'])->name('user.store');
 
 Route::get('/logout', function () {
