@@ -1,5 +1,6 @@
+<?php ?>
 @extends('partials.app')
-@section('title', 'Home')
+@section('title', 'Expense')
 @section('content')
     @push('style')
         <style>
@@ -39,10 +40,11 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="{{ route('user.home') }}">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{{ route('user.home') }}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('user.expense') }}">Get Expense</a>
+                    <a class="nav-link" href="{{ route('user.expense') }}">Get Expense <span
+                            class="sr-only">(current)</span></a>
                 </li>
 
 
@@ -71,46 +73,69 @@
             </div>
         @endif
 
-        <form action="{{ route('user.store') }}" method="post">
-            @csrf
-            <div class="card">
-                <div class="card-header">Create Expense</div>
-                <div class="card-body">
+        <div class="card">
+
+            <div class="card-header">
+                <form action="{{ route('user.filterExpense') }}" method="post">
+                    @csrf
                     <div class="row">
 
-                        <div class="col-sm-12 col-md-6 col-lg-4">
+                        <div class="col-sm-5 col-md-5 col-lg-5">
                             <div class="form-group">
-                                <label for="">Expense Date</label>
-                                <input type="date" name="expense_date" class="form-control" value="<?php echo date('Y-m-d'); ?>"
-                                    placeholder="Expense Date" required>
+                                <label for="">Expense Start Date</label>
+                                <input type="date" name="expense_start_date" class="form-control"
+                                    placeholder="Expense Start Date" required>
                             </div>
                         </div>
 
-                        <div class="col-sm-12 col-md-6 col-lg-4">
+                        <div class="col-sm-5 col-md-5 col-lg-5">
                             <div class="form-group">
-                                <label for="">Expense Description</label>
-                                <input type="text" name="expense_desc" class="form-control"
+                                <label for="">Expense End Date</label>
+                                <input type="date" name="expense_end_date" class="form-control"
                                     placeholder="Expense Description" required>
                             </div>
                         </div>
 
-                        <div class="col-sm-12 col-md-6 col-lg-4">
-                            <div class="form-group">
-                                <label for="">Expense Price</label>
-                                <input type="number" name="expense_price" class="form-control"
-                                    placeholder="Expense Price eg - 20" required>
+                        <div class="col-sm-2 col-md-2 col-lg-2">
+                            <div class="btn w-100">
+                                <button type="submit" class="btn btn-success"><i class="fa fa-search"></i></button>
                             </div>
                         </div>
 
-                        <div class="btn w-100">
-                            <button type="submit" class="btn btn-success" onclick="return confirm('Are you sure save this expense. You can`t change this.')">Save</button>
-                        </div>
-
                     </div>
+                </form>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Desc.</th>
+                                <th>Expense</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($expenses as $expense)
+                                <tr>
+                                    <td scope="row">{{ \Carbon\Carbon::parse($expense->date)->format('d M Y')}}</td>
+                                    <td>{{$expense->expense_desc}}</td>
+                                    <td>{{$expense->expense}}</td>
+                                </tr>
+                            @empty
+                                <h3 class="text-center">No Data Found.</h3>
+                            @endforelse
+                            <tr>
+                                <td colspan="2" class="text-right"><b>Total Expense</b></td>
+                                <td><b>&#8377; {{$expenseSum}}</b></td>
+                                
+                            </tr>
+
+                        </tbody>
+                    </table>
                 </div>
             </div>
-
-        </form>
+        </div>
 
         <div class="footer mt-4">
             <div class="foot">
