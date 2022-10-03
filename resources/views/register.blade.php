@@ -2,7 +2,7 @@
 @section('title', 'Register')
 @section('content')
     <div class="limiter">
-        <div class="container-login100" style="background-image: url('assets/images/bg-01.jpg');">
+        <div class="container-login100" style="background-image: url('public/assets/images/bg-01.jpg');">
             <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
                 <form class="login100-form validate-form" action="{{ route('user.register') }}" method="POST">
                     @csrf
@@ -24,25 +24,25 @@
 
                     <div class="wrap-input100 validate-input m-b-23" data-validate="Name is reauired">
                         <span class="label-input100">Name</span>
-                        <input class="input100" type="text" name="name" placeholder="Name">
+                        <input class="input100" type="text" name="name" placeholder="Name" autocomplete="off">
                         <span class="focus-input100" data-symbol="&#xf206;"></span>
                     </div>
 
                     <div class="wrap-input100 validate-input m-b-23" data-validate="Email is reauired">
                         <span class="label-input100">Email</span>
-                        <input class="input100" type="text" name="username" placeholder="Email">
+                        <input class="input100" type="text" name="username" placeholder="Email" autocomplete="off">
                         <span class="focus-input100" data-symbol="&#xf180;"></span>
                     </div>
 
                     <div class="wrap-input100 validate-input m-b-23" data-validate="Password is required">
                         <span class="label-input100">Password</span>
-                        <input class="input100" type="password" name="pass" placeholder="Password">
+                        <input class="input100" type="password" name="pass" placeholder="Password" autocomplete="off">
                         <span class="focus-input100" data-symbol="&#xf190;"></span>
                     </div>
 
                     <div class="wrap-input100 validate-input m-b-31" data-validate="Confirm Password is required">
                         <span class="label-input100">Confirm Password</span>
-                        <input class="input100" type="password" name="con_pass" placeholder="Confirm Password">
+                        <input class="input100" type="password" name="con_pass" placeholder="Confirm Password" autocomplete="off">
                         <span class="focus-input100" data-symbol="&#xf190;"></span>
                     </div>
 

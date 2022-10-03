@@ -90,21 +90,21 @@
                             <div class="form-group">
                                 <label for="">Name</label>
                                 <input type="text" name="name" class="form-control" placeholder="Name"
-                                    value="{{ $profile->name }}" required>
+                                    value="{{ $profile->name }}" autocomplete="off" required>
                             </div>
                         </div>
 
                         <div class="col-sm-12 col-md-6 col-lg-4" id="pass1">
                             <div class="form-group">
                                 <label for="">Password</label>
-                                <input type="password" name="pass" class="form-control" placeholder="Password">
+                                <input type="password" name="pass" autocomplete="off" class="form-control" placeholder="Password">
                             </div>
                         </div>
 
                         <div class="col-sm-12 col-md-6 col-lg-4" id="pass2">
                             <div class="form-group">
                                 <label for="">Confirm Password</label>
-                                <input type="password" name="con_pass" class="form-control" placeholder="Confirm Password">
+                                <input type="password" name="con_pass" class="form-control" placeholder="Confirm Password" autocomplete="off">
                             </div>
                         </div>
 

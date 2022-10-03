@@ -92,7 +92,7 @@ use App\Models\Expense;
                                 <div class="form-group">
                                     <label for="">Expense Start Date</label>
                                     <input type="date" name="expense_start_date" class="form-control"
-                                        placeholder="Expense Start Date" required>
+                                        placeholder="Expense Start Date" autocomplete="off" required>
                                 </div>
                             </div>
 
@@ -100,7 +100,7 @@ use App\Models\Expense;
                                 <div class="form-group">
                                     <label for="">Expense End Date</label>
                                     <input type="date" name="expense_end_date" class="form-control"
-                                        placeholder="Expense Description" required>
+                                        placeholder="Expense Description" autocomplete="off" required>
                                 </div>
                             </div>
 
